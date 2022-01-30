@@ -1,19 +1,21 @@
 .outerContainer {
   display: grid;
-  grid-template-columns: 33% 33% 33%;
-  margin: auto;
+  grid-template-columns: 33.33% 33.33% 33.33%;
+
+  justify-content: center;
 }
 
 .container {
-  width: fit-content;
-  height: fit-content;
+  width: " 100px";
+  height: "100px";
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgb(0, 0, 0);
+  border: 1px solid rgb(233, 239, 245);
   border-radius: 5px;
-  margin-top: 10px;
+  margin: 10px;
+  background-color: rgb(22, 27, 34);
 }
 
 .container h1 {
@@ -21,33 +23,123 @@
   margin-bottom: 10px;
   font-size: 1.5em;
   font-weight: bold;
-  color: rgb(0, 0, 0);
+  color: rgb(201, 209, 217);
+}
+.container p {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: rgb(201, 209, 217);
 }
 
-.image {
+.avatarImage {
   width: "60px";
   height: "60px";
   margin: 10px;
   display: block;
 }
 
-.SearchInput {
+.pageInput {
+  margin: 5px;
+}
+
+.searchInput {
+  width: 500px;
+  height: 50px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+  border: 1px solid rgb(233, 239, 245);
+  background-color: rgb(13, 17, 23);
+  border-radius: 5px;
+  font-size: 2em;
+  font-weight: bold;
+  color: rgb(201, 209, 217);
+  text-align: center;
+}
+.numberInput {
   width: fit-content;
   height: fit-content;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 5px;
-  border: 1px solid rgb(29, 18, 88);
+  border: 1px solid rgb(233, 239, 245);
+  background-color: rgb(13, 17, 23);
   border-radius: 5px;
-  font-size: 1.2em;
+  font-size: 2em;
   font-weight: bold;
-  color: rgb(0, 0, 0);
+  color: rgb(201, 209, 217);
+  text-align: center;
 }
 .main {
   min-height: 100vh;
-  padding: 2rem 0;
 
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: rgb(233, 239, 245);
+}
+.userLabel {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(201, 209, 217);
+}
+
+.nav {
+  background-color: rgb(22, 27, 34);
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(22, 27, 34);
+  margin-top: 0px;
+}
+
+.easterEgg {
+  justify-content: center;
+  align-items: center;
+}
+
+.nonActiveButton {
+  background-color: rgb(95, 95, 95);
+  border: 1px solid rgb(182, 182, 182);
+  border-radius: 5px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: rgb(156, 156, 156);
+  padding: 5px;
+  margin: 10px;
+}
+
+.over9000Image {
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  display: block;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.over9000Container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(22, 27, 34);
+}
+
+@media (max-width: 600px) {
+  .outerContainer {
+    grid-template-columns: 1fr;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+  }
 }

@@ -8,30 +8,39 @@ const Search = () => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
+  const [pageTotalValue, setPageTotalValue] = useState();
 
   const debouncedQuery = useDebounce(query, 500); // used Debounce hook to prevent API call on every keystroke to avoid overloading the API
-
+  const pageTotal = Math.ceil(total / 10);
   // These next functions are used to set the page number in various way. It was not apparant from the start that I would have to handle so many functions.
 
-  const pageTotal = Math.ceil(total / 10);
+  const checkMaxLimit = () => {
+    if (total <= 1000) {
+      setPageTotalValue(pageTotal);
+    } else {
+      setPageTotalValue(100);
+    }
+  };
 
   const incrementPage = () => {
-    if (page < pageTotal) {
+    if (page < pageTotalValue) {
       setPage(++page);
     }
   };
 
   const decrementPage = () => {
-    setPage(--page);
+    if (page > 1) {
+      setPage(--page);
+    }
   };
 
   const setPagetoMax = () => {
-    setPage(pageTotal);
+    setPage(pageTotalValue);
   };
 
   const handleUpperLimit = (e) => {
-    if (page > pageTotal) {
-      setPage(pageTotal);
+    if (page > pageTotalValue) {
+      setPage(pageTotalValue);
     }
     setPage(e.target.value);
   };
@@ -59,60 +68,114 @@ const Search = () => {
 
   useEffect(() => {
     if (query !== "") {
+      checkMaxLimit();
       getUser();
+    } else {
+      checkMaxLimit();
+      setQuery("");
+      getUser();
+      setPage(1);
     }
   }, [debouncedQuery, page]);
   return (
     <>
-      <input
-        className={styles.SearchInput}
-        type="text"
-        onChange={(e) => setQuery(e.target.value)}
-      />
+      <div className={styles.inputContainer}>
+        <label className={styles.userLabel} htmlFor="userInput">
+          Enter a GitHub username
+        </label>
+        <input
+          id="userInput"
+          className={styles.searchInput}
+          type="text"
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for a user"
+          defaultValue={query}
+        />
 
-      {total ? (
-        <>
-          <div>
-            {total > 1000 ? (
-              <h2>Over 1000 results, please refine your search</h2>
-            ) : (
-              <h2>
-                There are {total} hits for that user on {pageTotal} pages
-              </h2>
-            )}
-          </div>
+        {total ? (
+          <div className={styles.nav}>
+            <div>
+              {total > 1000 ? (
+                <h2>
+                  Over <span>1000</span> individual results for{" "}
+                  <span>{debouncedQuery}</span>, please refine your search!
+                </h2>
+              ) : (
+                <h2>
+                  There are <span>{total}</span> hits for{" "}
+                  <span>{debouncedQuery}</span> on <span>{pageTotalValue}</span>{" "}
+                  pages
+                </h2>
+              )}
+            </div>
 
-          <div>
-            <h2>
-              You are on page {page} of {pageTotal}
-            </h2>
-            <span>Jump to page # </span>
-            <input
-              type="number"
-              value={page}
-              onChange={handleUpperLimit}
-              min="1"
-              max={pageTotal}
-            />
+            <div>
+              {total > 1000 ? (
+                <>
+                  <div className={styles.over9000Container}>
+                    <h2>
+                      You are on page <span>{page}</span> of over
+                      <span>1000!</span>
+                    </h2>
+                    <img className={styles.over9000Image} src="/Over.jpg"></img>
+                  </div>
+                </>
+              ) : (
+                <h2>
+                  You are on page <span>{page}</span> of{" "}
+                  <span>{pageTotalValue}</span>
+                </h2>
+              )}
+              <div className={styles.pageInput}>
+                <label className={styles.userLabel} htmlFor="pageInput">
+                  Jump to page #{" "}
+                </label>
+                <input
+                  className={styles.numberInput}
+                  id="pageInput"
+                  type="number"
+                  value={page}
+                  onChange={handleUpperLimit}
+                  min="1"
+                  max={pageTotalValue}
+                />
+              </div>
+            </div>
           </div>
-        </>
-      ) : (
-        <h2>No results</h2>
-      )}
+        ) : (
+          <h2>No results</h2>
+        )}
+      </div>
 
       <div>
-        {page > pageTotal ? (
+        {page > pageTotalValue ? (
           <button onClick={setPagetoMax}>Take me back to the last page</button>
         ) : (
           <div>
-            {user && page != 1 && (
+            {user && page != 1 ? (
               <button onClick={decrementPage}>Previous</button>
+            ) : (
+              <button
+                className={styles.nonActiveButton}
+                onClick={decrementPage}
+              >
+                Previous
+              </button>
             )}
-            {user && page < pageTotal && (
+            {user && page < pageTotal ? (
               <button onClick={incrementPage}>Next</button>
+            ) : (
+              <button
+                className={styles.nonActiveButton}
+                onClick={incrementPage}
+              >
+                Next
+              </button>
             )}
           </div>
         )}
+      </div>
+      <div>
         <ResultsCard user={user} />
       </div>
     </>
@@ -120,3 +183,7 @@ const Search = () => {
 };
 
 export default Search;
+
+//TODO: Figure out way to ensure if a user gets past the page filter
+// they are taken back to the last page. and can not mess with the page state
+// while beyond it's max.

@@ -9,8 +9,8 @@ const ResultsCard = ({ user }) => {
           <div className={styles.container} key={user.id}>
             <h1>{user.login}</h1>
             <br />
-            {user.id}
-            <img className={styles.image} src={user.avatar_url} />
+            <p> {user.id} </p>
+            <img className={styles.avatarImage} src={user.avatar_url} />
 
             <a href={user.html_url} target="_blank" rel="noreferrer">
               Check them out on GitHub!
