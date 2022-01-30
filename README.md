@@ -1,34 +1,40 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# [![Website](https://img.shields.io/website?label=GitHubSearch&url=https%3A%2F%2Fwww.zacharyp.dev%2F)](https://hardcore-minsky-40cee8.netlify.app/) 👈 Check it out!!
 
-## Getting Started
+## GitHub Search
 
-First, run the development server:
+<font size ="5">- Provides full auto updating search for users and displays relevant information to the page.</font>
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+<br>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<font size ="3">- Paginated results limited to 10 users a page and only as many pages needed to display all the results
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- Note: GH's api only allows up to the first 1000 results to be hit. I have provided some influence in narrowing down search params
+  - I beleive that given the scope of the project needing to handle over 1000 results is unecessary.
+- There is small fun bug/easter egg/feature? surronding page number please let me know if you find it!</font>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<br>
+    
+<font size ="3">- Using some state and a useEffect I control the frequency of when the API is called and added deBounce to the query params to fine tune when the API fires.
+  - I am using a token on the backend to extend privllages allowing the app to hit the API hit by a user multiple times without running into the limiter - Note: There is still an upper limit (Somewhere in the realm of 40-50 calls in a min/30seconds according to a few stress tests) However for the use case again I do not see this being a hinderance. If the application handled more than just usernames / was a production level product more stringant checks on the API would be put in place.</font>
+    
+<br>
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+<font size ="3">- I wanted to practice some raw CSS so i chose to forgo a design library.</font>
 
-## Learn More
+### Built using:
 
-To learn more about Next.js, take a look at the following resources:
+<img align="left" alt="Visual Studio Code" width="50px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/visual-studio-code/visual-studio-code.png" title="VScode"/>
+<img align="left" alt="NextJS" width="50px" src="https://api.iconify.design/akar-icons/nextjs-fill.svg?color=white" title="Next.JS" />
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<img align="left" alt="React" width="50px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/react/react.png" title="React" />
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<br />
+<br />
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[website]: https://zacharyp.dev
+[websitecontact]: https://www.zacharyp.dev/contact
+[twitter]: https://twitter.com/TweetZachBack
+[linkedin]: https://www.linkedin.com/in/zachary-przybilski/
+[blog]: https://dev.to/zacharyp
