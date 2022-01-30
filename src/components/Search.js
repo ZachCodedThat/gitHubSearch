@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "@styles/Search.module.css";
 import useDebounce from "@utils/useDebounce";
+import ResultsCard from "./ResultsCard";
 
 const Search = () => {
   const [user, setUser] = useState([]);
@@ -8,7 +9,9 @@ const Search = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
 
-  const debouncedQuery = useDebounce(query, 500);
+  const debouncedQuery = useDebounce(query, 500); // used Debounce hook to prevent API call on every keystroke to avoid overloading the API
+
+  // These next functions are used to set the page number in various way. It was not apparant from the start that I would have to handle so many functions.
 
   const pageTotal = Math.ceil(total / 10);
 
@@ -33,7 +36,12 @@ const Search = () => {
     setPage(e.target.value);
   };
 
-  console.log(total);
+  console.log(user);
+
+  // this is the API call that is made to the repos own api endpoint, This is to obscure the GH api token which in this case was not such a big deal
+  //   because the token has read_only rights. However it is good practice to set things up this way.
+
+  // This function also sets the User and total state variabels every time it is fired. The query is debounced to prevent overloading the API.
 
   const getUser = async () => {
     const res = await fetch("api/gitHubSearch", {
@@ -46,6 +54,9 @@ const Search = () => {
     setUser(data.items);
     setTotal(data.total_count);
   };
+
+  // The useEffect is looking at when the query or page changes and fires the API
+
   useEffect(() => {
     if (query !== "") {
       getUser();
@@ -53,7 +64,11 @@ const Search = () => {
   }, [debouncedQuery, page]);
   return (
     <>
-      <input type="text" onChange={(e) => setQuery(e.target.value)} />
+      <input
+        className={styles.SearchInput}
+        type="text"
+        onChange={(e) => setQuery(e.target.value)}
+      />
 
       {total ? (
         <>
@@ -98,35 +113,10 @@ const Search = () => {
             )}
           </div>
         )}
-
-        {user &&
-          user.map((user) => (
-            <>
-              <div className={styles.container} key={user.id}>
-                <h1>{user.login}</h1>
-                <br />
-                {user.id}
-              </div>
-              <img className={styles.image} src={user.avatar_url} />
-
-              <a href={user.html_url} target="_blank" rel="noreferrer">
-                Check them out on GitHub!
-              </a>
-            </>
-          ))}
+        <ResultsCard user={user} />
       </div>
     </>
   );
 };
 
 export default Search;
-
-//TODO: figure out how to break this out some and document the struggles,
-// and how to make it more readable. Api problems that were stemming from having to hide my token
-// from the public repo. This was not the worst since the key was just for read only access.
-// however I wanted to make sure I was able to hide the key properly. This led to the use
-// of an API endpoint within my own repo.
-
-// Explain my process around UseDebounce and how it works.
-
-// Explain my process around
