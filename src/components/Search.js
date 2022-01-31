@@ -13,12 +13,12 @@ const Search = () => {
   const debouncedQuery = useDebounce(query, 500); // used Debounce hook to prevent API call on every keystroke to avoid overloading the API
   const pageTotal = Math.ceil(total / 10);
   // These next functions are used to set the page number in various way. It was not apparant from the start that I would have to handle so many functions.
-
+  console.log(page, pageTotal, pageTotalValue);
   const checkMaxLimit = () => {
     if (total <= 1000) {
       setPageTotalValue(pageTotal);
     } else {
-      setPageTotalValue(100);
+      setPageTotalValue(500);
     }
   };
 
@@ -35,7 +35,7 @@ const Search = () => {
   };
 
   const resetPageNumber = () => {
-    if (page > pageTotal) {
+    if (page > pageTotal && pageTotal !== 0) {
       setPage(1);
     }
   };
@@ -68,6 +68,8 @@ const Search = () => {
     if (query !== "") {
       checkMaxLimit();
       getUser();
+    } else if (pageTotal < pageTotalValue) {
+      setPage(pageTotalValue);
     } else {
       checkMaxLimit();
       setQuery("");
