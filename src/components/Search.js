@@ -35,14 +35,15 @@ const Search = () => {
   };
 
   const setPagetoMax = () => {
-    setPage(pageTotalValue);
+    if (page > pageTotal) {
+      setPage(1);
+    }
   };
 
   const handleUpperLimit = (e) => {
     if (page > pageTotalValue) {
-      setPage(pageTotalValue);
-    }
-    setPage(e.target.value);
+      setPage(pageTotal);
+    } else setPage(e.target.value);
   };
 
   console.log(user);
@@ -70,6 +71,8 @@ const Search = () => {
     if (query !== "") {
       checkMaxLimit();
       getUser();
+    } else if (pageTotal < pageTotalValue) {
+      setPage(pageTotalValue);
     } else {
       checkMaxLimit();
       setQuery("");
@@ -103,7 +106,7 @@ const Search = () => {
               ) : (
                 <h2>
                   There are <span>{total}</span> hits for{" "}
-                  <span>{debouncedQuery}</span> on <span>{pageTotalValue}</span>{" "}
+                  <span>{debouncedQuery}</span> on <span>{pageTotal}</span>{" "}
                   pages
                 </h2>
               )}
@@ -123,7 +126,7 @@ const Search = () => {
               ) : (
                 <h2>
                   You are on page <span>{page}</span> of{" "}
-                  <span>{pageTotalValue}</span>
+                  <span>{pageTotal}</span>
                 </h2>
               )}
               <div className={styles.pageInput}>
@@ -148,8 +151,8 @@ const Search = () => {
       </div>
 
       <div>
-        {page > pageTotalValue ? (
-          <button onClick={setPagetoMax}>Take me back to the last page</button>
+        {page > pageTotal || page > pageTotalValue ? (
+          <button onClick={setPagetoMax}>Take me back to the first page</button>
         ) : (
           <div>
             {user && page != 1 ? (
