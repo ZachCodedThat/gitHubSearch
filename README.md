@@ -20,7 +20,9 @@
     
 <br>
 
-<font size ="3">- I wanted to practice some raw CSS so i chose to forgo a design library.</font>
+<font size ="3">- I wanted to practice some raw CSS so i chose to forgo a design library.
+
+- As of this iteration there is a full web app and a mobile variant based around the iphone 12 max screen, this gave me the widest range of device coverage I would extend this to cover as many devices as possible if this were a production level app. </font>
 
 ### Built using:
 

@@ -31,3 +31,9 @@ span {
   font-weight: bold;
   color: rgb(87, 164, 252);
 }
+
+@media (max-width: 1000px) {
+  html {
+    display: flex;
+  }
+}
