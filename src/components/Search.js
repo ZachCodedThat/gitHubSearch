@@ -34,7 +34,7 @@ const Search = () => {
     }
   };
 
-  const setPagetoMax = () => {
+  const resetPageNumber = () => {
     if (page > pageTotal) {
       setPage(1);
     }
@@ -45,8 +45,6 @@ const Search = () => {
       setPage(pageTotal);
     } else setPage(e.target.value);
   };
-
-  console.log(user);
 
   // this is the API call that is made to the repos own api endpoint, This is to obscure the GH api token which in this case was not such a big deal
   //   because the token has read_only rights. However it is good practice to set things up this way.
@@ -59,7 +57,6 @@ const Search = () => {
       body: JSON.stringify({ query: debouncedQuery, page }),
     });
     const data = await res.json();
-    console.log(data);
 
     setUser(data.items);
     setTotal(data.total_count);
@@ -71,8 +68,6 @@ const Search = () => {
     if (query !== "") {
       checkMaxLimit();
       getUser();
-    } else if (pageTotal < pageTotalValue) {
-      setPage(pageTotalValue);
     } else {
       checkMaxLimit();
       setQuery("");
@@ -152,7 +147,9 @@ const Search = () => {
 
       <div>
         {page > pageTotal || page > pageTotalValue ? (
-          <button onClick={setPagetoMax}>Take me back to the first page</button>
+          <button onClick={resetPageNumber}>
+            Take me back to the first page
+          </button>
         ) : (
           <div>
             {user && page != 1 ? (

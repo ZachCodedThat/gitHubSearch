@@ -1,7 +1,6 @@
 import styles from "@styles/Search.module.css";
 
 const ResultsCard = ({ user }) => {
-  console.log(user);
   return (
     <div className={styles.outerContainer}>
       {user &&
