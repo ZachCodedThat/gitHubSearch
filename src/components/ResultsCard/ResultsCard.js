@@ -1,5 +1,4 @@
 import styles from "@styles/Search.module.css";
-import { useState, useEffect } from "react";
 import UserInformation from "../UserInformation";
 
 const ResultsCard = ({ user }) => {

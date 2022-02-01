@@ -27,6 +27,18 @@ button {
   margin: 10px;
 }
 
+button:hover {
+  background-color: rgb(201, 209, 217);
+  color: rgb(0, 0, 0);
+}
+
+button:active {
+  background-color: rgb(87, 164, 252);
+  color: rgb(0, 0, 0);
+  transform: scale(0.9);
+  border-color: transparent;
+}
+
 span {
   font-weight: bold;
   color: rgb(87, 164, 252);
