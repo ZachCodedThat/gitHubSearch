@@ -75,8 +75,6 @@ const Search = () => {
 
     setUser(data.items);
     setTotal(data.total_count);
-
-    handleFocus();
   };
 
   // The useEffect is looking at when the query or page changes and fires the API
@@ -92,6 +90,7 @@ const Search = () => {
       setQuery("");
       getUser();
       setPage(1);
+      handleFocus();
     }
   }, [debouncedQuery, page]);
 
