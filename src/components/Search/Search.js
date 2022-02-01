@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "@styles/Search.module.css";
 import useDebounce from "@utils/useDebounce";
-import ResultsCard from "./ResultsCard";
+import ResultsCard from "@components/ResultsCard";
 
 const Search = () => {
   const [user, setUser] = useState([]);
@@ -10,10 +10,18 @@ const Search = () => {
   const [total, setTotal] = useState();
   const [pageTotalValue, setPageTotalValue] = useState();
 
-  const debouncedQuery = useDebounce(query, 500); // used Debounce hook to prevent API call on every keystroke to avoid overloading the API
+  // This little bit of code handles the intial focusing of the search bar on page load and is also called when the results are cleared by the user.
+  const searchInput = useRef(null);
+  const handleFocus = () => {
+    searchInput.current.focus();
+  };
+
+  // used Debounce hook to prevent API call on every keystroke to avoid overloading the API
+  const debouncedQuery = useDebounce(query, 750);
   const pageTotal = Math.ceil(total / 10);
-  // These next functions are used to set the page number in various way. It was not apparant from the start that I would have to handle so many functions.
-  console.log(page, pageTotal, pageTotalValue);
+
+  // These next functions are used to set the page number and query params in various way. It was not apparant from the start that I would have to handle so many functions.
+
   const checkMaxLimit = () => {
     if (total <= 1000) {
       setPageTotalValue(pageTotal);
@@ -23,7 +31,7 @@ const Search = () => {
   };
 
   const incrementPage = () => {
-    if (page < pageTotalValue) {
+    if (pageTotal !== 1) {
       setPage(++page);
     }
   };
@@ -39,14 +47,21 @@ const Search = () => {
       setPage(1);
     }
   };
+  const resetQuery = () => {
+    checkMaxLimit();
+    setQuery("");
+    getUser();
+    setPage(1);
+    handleFocus();
+  };
 
   const handleUpperLimit = (e) => {
     if (page > pageTotalValue) {
-      setPage(pageTotal);
+      setPage();
     } else setPage(e.target.value);
   };
 
-  // this is the API call that is made to the repos own api endpoint, This is to obscure the GH api token which in this case was not such a big deal
+  // this is the function that hits the API call that is made to the repos own api endpoint, This is to obscure the GH api token which in this case was not such a big deal
   //   because the token has read_only rights. However it is good practice to set things up this way.
 
   // This function also sets the User and total state variabels every time it is fired. The query is debounced to prevent overloading the API.
@@ -60,6 +75,8 @@ const Search = () => {
 
     setUser(data.items);
     setTotal(data.total_count);
+
+    handleFocus();
   };
 
   // The useEffect is looking at when the query or page changes and fires the API
@@ -77,6 +94,9 @@ const Search = () => {
       setPage(1);
     }
   }, [debouncedQuery, page]);
+
+  // I use alot of ternary operaterations to handle different outputs depending on the state of the query and page.
+
   return (
     <>
       <div className={styles.inputContainer}>
@@ -89,7 +109,8 @@ const Search = () => {
           type="text"
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a user"
-          defaultValue={query}
+          value={query}
+          ref={searchInput}
         />
 
         {total ? (
@@ -141,42 +162,46 @@ const Search = () => {
                 />
               </div>
             </div>
+            <div>
+              {page > pageTotal || page > pageTotalValue ? (
+                <button onClick={resetPageNumber}>
+                  Take me back to the first page
+                </button>
+              ) : (
+                <div>
+                  {user && page != 1 ? (
+                    <button onClick={decrementPage}>Previous</button>
+                  ) : (
+                    <button
+                      className={styles.nonActiveButton}
+                      onClick={decrementPage}
+                    >
+                      Previous
+                    </button>
+                  )}
+                  {user && page < pageTotal ? (
+                    <button onClick={incrementPage}>Next</button>
+                  ) : (
+                    <button
+                      className={styles.nonActiveButton}
+                      onClick={incrementPage}
+                    >
+                      Next
+                    </button>
+                  )}
+                  <button onClick={resetQuery}>Clear Results</button>
+                </div>
+              )}
+            </div>
           </div>
         ) : (
-          <h2>No results</h2>
+          <>
+            <h2>No results</h2>
+            <button onClick={resetQuery}>Reset Search </button>
+          </>
         )}
       </div>
 
-      <div>
-        {page > pageTotal || page > pageTotalValue ? (
-          <button onClick={resetPageNumber}>
-            Take me back to the first page
-          </button>
-        ) : (
-          <div>
-            {user && page != 1 ? (
-              <button onClick={decrementPage}>Previous</button>
-            ) : (
-              <button
-                className={styles.nonActiveButton}
-                onClick={decrementPage}
-              >
-                Previous
-              </button>
-            )}
-            {user && page < pageTotal ? (
-              <button onClick={incrementPage}>Next</button>
-            ) : (
-              <button
-                className={styles.nonActiveButton}
-                onClick={incrementPage}
-              >
-                Next
-              </button>
-            )}
-          </div>
-        )}
-      </div>
       <div>
         <ResultsCard user={user} />
       </div>
@@ -186,6 +211,5 @@ const Search = () => {
 
 export default Search;
 
-//TODO: Figure out way to ensure if a user gets past the page filter
-// they are taken back to the last page. and can not mess with the page state
-// while beyond it's max.
+// Given a deeper dive into this I would break out the search component into its parts to better be able to manage them and make them more reusable.
+// for this exercise I keep it to 2 components. The search component and the results component

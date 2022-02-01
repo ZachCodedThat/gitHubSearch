@@ -1,4 +1,4 @@
-import Search from "@components/Search";
+import Search from "@components/Search/Search";
 import styles from "@styles/Search.module.css";
 
 export default function Home() {

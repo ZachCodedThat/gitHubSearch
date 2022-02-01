@@ -1,4 +1,6 @@
 import styles from "@styles/Search.module.css";
+import { useState, useEffect } from "react";
+import UserInformation from "../UserInformation";
 
 const ResultsCard = ({ user }) => {
   return (
@@ -8,7 +10,8 @@ const ResultsCard = ({ user }) => {
           <div className={styles.container} key={user.id}>
             <h1>{user.login}</h1>
             <br />
-            <p> {user.id} </p>
+
+            <UserInformation user={user} />
             <img className={styles.avatarImage} src={user.avatar_url} />
 
             <a href={user.html_url} target="_blank" rel="noreferrer">
