@@ -42,11 +42,15 @@ const Search = () => {
     }
   };
 
+  // my way to clean up the page # when a new search is made.
+
   const resetPageNumber = () => {
     if (page > pageTotal && pageTotal !== 0) {
       setPage(1);
     }
   };
+
+  // my way to reset the system from within without having to reload the page.
   const resetQuery = () => {
     checkMaxLimit();
     setQuery("");
@@ -55,13 +59,15 @@ const Search = () => {
     handleFocus();
   };
 
+  // logic that safegaurds against being able to next into a page that doesn't exist. and helps with the page # when a new search is made.
+
   const handleUpperLimit = (e) => {
     if (page > pageTotalValue) {
       setPage();
     } else setPage(e.target.value);
   };
 
-  // this is the function that hits the API call that is made to the repos own api endpoint, This is to obscure the GH api token which in this case was not such a big deal
+  // this is the main function that hits the API call that is made to the repos own api endpoint, This is to obscure the GH api token which in this case was not such a big deal
   //   because the token has read_only rights. However it is good practice to set things up this way.
 
   // This function also sets the User and total state variabels every time it is fired. The query is debounced to prevent overloading the API.

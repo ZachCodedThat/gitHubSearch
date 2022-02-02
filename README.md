@@ -10,7 +10,7 @@
 
 - Note: GH's api only allows up to the first 1000 results to be hit. I have provided some influence in narrowing down search params
   - I beleive that given the scope of the project needing to handle over 1000 results is unecessary.
-- There is small fun bug/easter egg/feature? surronding page number please let me know if you find it!</font>
+    </font>
 
 <br>
     
