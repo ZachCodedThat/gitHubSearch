@@ -126,6 +126,12 @@ const Search = () => {
                   Over <span>1000</span> individual results for{" "}
                   <span>{debouncedQuery}</span>, please refine your search!
                 </h2>
+              ) : total === 1 ? (
+                <h2>
+                  There is <span>{total}</span> hit for{" "}
+                  <span>{debouncedQuery}</span> on <span>{pageTotal}</span>{" "}
+                  page.
+                </h2>
               ) : (
                 <h2>
                   There are <span>{total}</span> hits for{" "}
