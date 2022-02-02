@@ -136,7 +136,7 @@ const Search = () => {
                 <h2>
                   There are <span>{total}</span> hits for{" "}
                   <span>{debouncedQuery}</span> on <span>{pageTotal}</span>{" "}
-                  pages
+                  {pageTotal === 1 ? "page." : "pages."}
                 </h2>
               )}
             </div>
