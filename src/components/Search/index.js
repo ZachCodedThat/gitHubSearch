@@ -1,4 +1,3 @@
-import Search from "@components/Search/Search";
+import Search from "/Search";
 
-
-export default Search ;
+export default Search;
