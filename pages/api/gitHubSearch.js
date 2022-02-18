@@ -1,19 +1,22 @@
 export default async function handler(req, res) {
   const { query, page } = JSON.parse(req.body);
+  try {
+    const response = await fetch(
+      `https://api.github.com/search/users?q=${query}&page=${page}&per_page=10`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: ` Token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+        },
+      }
+    );
 
-  const response = await fetch(
-    `https://api.github.com/search/users?q=${query}&page=${page}&per_page=10`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: ` Token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-      },
-    }
-  );
+    const data = await response.json();
 
-  const data = await response.json();
-
-  res.send(data);
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // This is the internal api endpoint that I call in place of the github api. This is to obscure the GH api token and is good practice.

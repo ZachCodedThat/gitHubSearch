@@ -1,16 +1,19 @@
 export default async function handler(req, res) {
   const { login } = JSON.parse(req.body);
+  try {
+    const response = await fetch(`https://api.github.com/users/${login}`, {
+      method: "GET",
+      headers: {
+        Authorization: ` Token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
+      },
+    });
 
-  const response = await fetch(`https://api.github.com/users/${login}`, {
-    method: "GET",
-    headers: {
-      Authorization: ` Token ${process.env.NEXT_PUBLIC_GITHUB_TOKEN}`,
-    },
-  });
+    const data = await response.json();
 
-  const data = await response.json();
-
-  res.send(data);
+    res.send(data);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // my inital solution was off because i was unaware of the additonal information
