@@ -6,7 +6,7 @@ const UserInformation = ({ user }) => {
     following: 0,
     bio: "",
   });
-  const [login, setLogin] = useState(user.login);
+  const [login] = useState(user.login);
 
   useEffect(() => {
     fetch("api/user", {

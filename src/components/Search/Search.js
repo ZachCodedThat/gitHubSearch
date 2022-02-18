@@ -30,15 +30,13 @@ const Search = () => {
   */
 
   const checkMaxLimit = () => {
-    if (total <= 1000 || total === undefined) {
-      setPageTotalValue(pageTotal);
-    } else {
-      setPageTotalValue(500);
+    if (total <= 1000) {
+      setTotal(total);
     }
   };
 
   const incrementPage = () => {
-    if (pageTotal !== 1) {
+    if (pageTotal !== 1 && page != pageTotal) {
       setPage(++page);
     }
   };
@@ -52,25 +50,23 @@ const Search = () => {
   // my way to clean up the page # when a new search is made.
 
   const resetPageNumber = () => {
-    if (page > pageTotal && pageTotal !== 0) {
+    if (page > pageTotal && pageTotal != 0) {
       setPage(1);
     }
   };
 
   // my way to reset the system from within without having to reload the page.
   const resetQuery = () => {
-    checkMaxLimit();
     setQuery("");
-    getUser();
-    setPage(1);
-    handleFocus();
+
+    console.log("reset");
   };
 
   // logic that safegaurds against being able to next into a page that doesn't exist. and helps with the page # when a new search is made.
 
   const handleUpperLimit = (e) => {
-    if (page > pageTotalValue) {
-      setPage();
+    if (page > pageTotal) {
+      setPage(pageTotal);
     } else setPage(e.target.value);
   };
 
@@ -93,17 +89,15 @@ const Search = () => {
   // The useEffect is looking at when the query or page changes and fires the API
 
   useEffect(() => {
-    if (query !== "") {
-      checkMaxLimit();
+    if (debouncedQuery !== "") {
       getUser();
-    } else if (pageTotal < pageTotalValue) {
-      setPage(pageTotalValue);
+      console.log("Already fired up");
     } else {
       checkMaxLimit();
-      setQuery("");
       getUser();
       setPage(1);
       handleFocus();
+      console.log("Firring up");
     }
   }, [debouncedQuery, page]);
 
@@ -176,12 +170,12 @@ const Search = () => {
                   value={page}
                   onChange={handleUpperLimit}
                   min="1"
-                  max={pageTotalValue}
+                  max={pageTotal}
                 />
               </div>
             </div>
             <div>
-              {page > pageTotal || page > pageTotalValue ? (
+              {page > pageTotal ? (
                 <button onClick={resetPageNumber}>
                   Take me back to the first page
                 </button>
