@@ -9,7 +9,7 @@ const UserInformation = ({ user }) => {
   const [login] = useState(user.login);
 
   useEffect(() => {
-    fetch("api/user", {
+    fetch("api/userInformationSearch", {
       method: "POST",
       body: JSON.stringify({ login }),
     })

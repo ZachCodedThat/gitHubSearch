@@ -8,7 +8,6 @@ const Search = () => {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState();
-  const [pageTotalValue, setPageTotalValue] = useState();
 
   // This little bit of code handles the intial focusing of the search bar on page load and is also called when the results are cleared by the user.
   const searchInput = useRef(null);
@@ -65,9 +64,10 @@ const Search = () => {
   // logic that safegaurds against being able to next into a page that doesn't exist. and helps with the page # when a new search is made.
 
   const handleUpperLimit = (e) => {
-    if (page > pageTotal) {
-      setPage(pageTotal);
-    } else setPage(e.target.value);
+    if (page > 100) {
+      setPage(100);
+    }
+    setPage(e.target.value);
   };
 
   // this is the main function that hits the API call that is made to the repos own api endpoint, This is to obscure the GH api token which in this case was not such a big deal
@@ -147,7 +147,7 @@ const Search = () => {
                 <>
                   <div className={styles.over9000Container}>
                     <h2>
-                      You are on page <span>{page}</span> of over
+                      You are on page <span>{page}</span> of over{" "}
                       <span>1000!</span>
                     </h2>
                     <img className={styles.over9000Image} src="/Over.jpg"></img>
@@ -170,7 +170,7 @@ const Search = () => {
                   value={page}
                   onChange={handleUpperLimit}
                   min="1"
-                  max={pageTotal}
+                  max={total >= 1000 ? 100 : pageTotal}
                 />
               </div>
             </div>
