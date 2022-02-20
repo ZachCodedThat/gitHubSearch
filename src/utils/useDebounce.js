@@ -1,4 +1,4 @@
-// This hook was pulled from the wonderful website usehooks.com run by the UI.dev team
+// This hook was pulled from the website usehooks.com run by the UI.dev team
 
 import { useState, useEffect } from "react";
 

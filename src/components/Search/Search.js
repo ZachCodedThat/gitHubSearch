@@ -21,13 +21,6 @@ const Search = () => {
 
   // These next functions are used to set the page number and query params in various way. It was not apparant from the start that I would have to handle so many functions.
 
-  /* *Bug 2/10/2022 * When the user enters a name and then deletes it the total page returns "undefined" which set off the
-  else clause of "checkMaxLimit" locking the page and causing the user to have to reload their page. 
-
-  - Fixed by adding a check to the incoming total to see if it is undefined. 
-  
-  */
-
   const checkMaxLimit = () => {
     if (total <= 1000) {
       setTotal(total);
