@@ -14,7 +14,7 @@
 
 <br>
     
-<font size ="3">- Using some state and a useEffect I control the frequency of when the API is called and added deBounce to the query params to fine tune when the API fires.
+<font size ="3">- Using some state and a useEffect I control the frequency of when the API is called and added deBounce (from the website [useHooks][useHooks]) to the query params to fine tune when the API fires.
   - I am using a token on the backend to extend privllages allowing the app to hit the API hit by a user multiple times without running into the limiter 
     - Note: There is still an upper limit (Somewhere in the realm of 40-50 calls in a min/30seconds according to a few stress tests) However for the use case again I do not see this being a hinderance. If the application handled more than just usernames / was a production level product more stringant checks on the API would be put in place.</font>
     
@@ -41,3 +41,4 @@
 [twitter]: https://twitter.com/TweetZachBack
 [linkedin]: https://www.linkedin.com/in/zachary-przybilski/
 [blog]: https://dev.to/zacharyp
+[useHooks]: https://usehooks.com/
